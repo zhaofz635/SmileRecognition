@@ -79,21 +79,22 @@ The required libraries are listed in the `requirements.txt` file. These librarie
    cd SmileRecognition
    
 2. **Create a Virtual Environment (Optional but Recommended)**
-   it's a good practice to create a virtual environment to manage dependencies:
-
-  ```sh
-  Copy code
-  python -m venv venv
-  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    
-3. **Install Dependencies**
-   Install the required libraries using pip:
+    it's a good practice to create a virtual environment to manage dependencies:
+   ```sh
+   Copy code
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-  ```sh
+3. **Install Dependencies**
+   
+   Install the required libraries using pip:
+   ```sh
   Copy code
   pip install -r requirements.txt
 
 4. **Downloading Data**
+
   If your software requires specific datasets, provide instructions on how to download them. For example:
   Download the Sample Video Data
   You can download the sample video data from this link. After downloading, unzip the files into a directory named data.
