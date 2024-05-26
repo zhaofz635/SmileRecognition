@@ -43,7 +43,7 @@ def analyze_and_display_results(app_instance, instance):
     popup = Popup(title='Analysis Results', content=analysis_window, size_hint=(0.9, 0.9))
     popup.open()
 
-    # 获取文件详细信息
+    # Get file details
     file_info = os.stat("laughter_data.csv")
     file_size = file_info.st_size
     num_rows = len(laughter_data)
