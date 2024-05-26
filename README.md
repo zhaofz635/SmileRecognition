@@ -55,3 +55,33 @@ To install SmileRecognition, clone this repository and install the required depe
 git clone https://github.com/yourusername/SmileRecognition.git
 cd SmileRecognition
 pip install -r requirements.txt
+
+## Installation
+
+To get started with SmileRecognition, follow these steps to install the necessary dependencies and set up the project.
+
+### Prerequisites
+
+- Python 3.7 or higher
+- Git
+
+### Required Libraries
+
+The required libraries are listed in the `requirements.txt` file. These libraries include:
+
+- numpy
+- opencv-python
+- dlib
+- tensorflow
+- scikit-learn
+
+### Installing the Software
+
+1. **Clone the Repository**
+
+   First, clone the repository from GitHub:
+
+   ```sh
+   git clone https://github.com/yourusername/SmileRecognition.git
+   cd SmileRecognition
+
