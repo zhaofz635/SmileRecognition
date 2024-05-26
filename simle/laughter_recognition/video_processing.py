@@ -3,33 +3,33 @@ import cv2
 import pandas as pd
 import numpy as np
 
-# 加载深度学习模型进行面部检测
+# Load deep learning model for face detection
 prototxt_path = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/laughter_recognition/deploy.prototxt"
 model_path = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/laughter_recognition/res10_300x300_ssd_iter_140000.caffemodel"
 
-# 确保提供正确的路径
+# Make sure to provide the correct path
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
-# 笑脸处理阶段
+# Smiley face processing stage
 
-# 定义笑脸检测器的路径（Haar 级联分类器的 XML 文件路径）
+# Define the path of the smile detector (XML file path of Haar cascade classifier)
 smile_cascade_path = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/laughter_recognition/haarcascade_smile.xml"
 
-# 加载笑脸检测器
+# Load smile detector
 smile_cascade = cv2.CascadeClassifier(smile_cascade_path)
 
-# 确认模型文件是否加载成功
+# Confirm whether the model file is loaded successfully
 if smile_cascade.empty():
     raise IOError("Failed to load haarcascade_smile.xml. Please check the file path.")
 
-# 处理 MP4 视频文件并保存结果到 DataFrame
+# Process MP4 video files and save the results to DataFrame
 def process_mp4_video(video_path, smile_threshold=0.1):
-    # 读取视频编号
-    video_number = os.path.basename(video_path)[:-4]  # 假设视频文件名格式为"video_number.mp4"
+    # Read video number
+    video_number = os.path.basename(video_path)[:-4]  # Assume that the video file name format is "video_number.mp4"
 
-    # 加载视频文件
+   #Load video file
     cap = cv2.VideoCapture(video_path)
-    # 检查视频是否成功打开
+    # Check if the video is opened successfully
     if not cap.isOpened():
         print("Error: Unable to open video:", video_path)
         return pd.DataFrame()
@@ -37,21 +37,21 @@ def process_mp4_video(video_path, smile_threshold=0.1):
     # 初始化 DataFrame 列表
     rows = []
 
-    # 循环读取视频帧
+    #Loop to read video frames
     frame_count = 0
     while True:
-        # 读取一帧
+        # Read a frame
         ret, frame = cap.read()
-        # 检查是否成功读取帧
+        # Check whether the frame was read successfully
         if not ret:
             break
 
         frame_count += 1
 
-        # 将帧转换为灰度图像（笑脸检测器需要灰度图像作为输入）
+        # Convert frames to grayscale images (smiley face detector requires grayscale images as input)
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        # 面部检测
+        # face detection
         (h, w) = frame.shape[:2]
         blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
                                      (300, 300), (104.0, 177.0, 123.0))
@@ -71,33 +71,33 @@ def process_mp4_video(video_path, smile_threshold=0.1):
                 face_position = (startX, startY, endX - startX, endY - startY)
                 face = gray_frame[startY:endY, startX:endX]
 
-                # 在灰度图像上检测笑脸
+                # Detect smiling faces on grayscale images
                 smiles = smile_cascade.detectMultiScale(
                     face,
-                    scaleFactor=1.8,  # 增加 scaleFactor 以提高检测的灵敏度
+                    scaleFactor=1.8,  # Increase scaleFactor to improve detection sensitivity
                     minNeighbors=20,
-                    minSize=(15, 15),  # 减小 minSize 以检测较小的笑脸
+                    minSize=(15, 15),  # Reduce minSize to detect smaller smiley faces
                     flags=cv2.CASCADE_SCALE_IMAGE
                 )
 
                 for (sx, sy, sw, sh) in smiles:
-                    # 计算嘴巴高度占脸部高度的比例
+                    # Calculate the ratio of mouth height to face height
                     mouth_height = sh
                     face_height = endY - startY
 
                     smile_ratio = mouth_height / face_height
 
-                    # 输出调试信息
+                    # Output debugging information
                     # print(f"Frame {frame_count}: smile_ratio = {smile_ratio}, threshold = {smile_threshold}")
 
-                    # 如果嘴巴高度占脸部高度的比例大于阈值，则认为检测到笑脸
+                    # If the ratio of the height of the mouth to the height of the face is greater than the threshold, it is considered that a smile is detected
                     if smile_ratio > smile_threshold:
                         rows.append([video_number, frame_count, (startX + sx, startY + sy, sw, sh), smile_ratio, True])
                         # print(f"Smile detected in frame {frame_count} at position {(startX + sx, startY + sy, sw, sh)}")
                         smile_detected = True
-                        # 绘制矩形框
+                        # Draw a rectangular box
                         # cv2.rectangle(frame, (startX + sx, startY + sy), (startX + sx + sw, startY + sy + sh), (0, 255, 0), 2)
-                        # # 绘制文字
+                        # # Draw text
                         # cv2.putText(frame, 'Smile', (startX + sx, startY + sy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
                         break
 
@@ -110,54 +110,45 @@ def process_mp4_video(video_path, smile_threshold=0.1):
             rows.append([video_number, frame_count, None, None, False])
             # print(f"No face detected in frame {frame_count}")
 
-        # 可视化中间结果
-        # for (sx, sy, sw, sh) in smiles:
-        #     # 绘制矩形框
-        #     cv2.rectangle(frame, (startX + sx, startY + sy), (startX + sx + sw, startY + sy + sh), (0, 255, 0), 2)
-        #     # 绘制文字
-        #     cv2.putText(frame, 'Smile', (startX + sx, startY + sy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-
-        # cv2.imshow('Frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # 释放视频流
+    # Release the video stream
     cap.release()
     cv2.destroyAllWindows()
 
-    # 创建 DataFrame
+    #Create DataFrame
     df = pd.DataFrame(rows, columns=['Video Number', 'Frame Number', 'Face Position', 'Smile Ratio', 'Detected'])
     return df
 
 
-# 定义 MP4 视频文件夹路径列表
+# Define MP4 video folder path list
 mp4_videos_folders = [
     "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/data/train",
     "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/data/test"]
 
-# 遍历每个文件夹及其子文件夹，处理每个视频并保存结果到 DataFrame
+# Iterate through each folder and its subfolders, process each video and save the results to a DataFrame
 dfs = []
 for folder in mp4_videos_folders:
     for root, dirs, files in os.walk(folder):
         for file in files:
             if file.endswith('.mp4'):
                 mp4_video_path = os.path.join(root, file)
-                df = process_mp4_video(mp4_video_path, smile_threshold=0.1)  # 降低阈值以提高检测率
+                df = process_mp4_video(mp4_video_path, smile_threshold=0.1)  
                 if not df.empty:
                     dfs.append(df)
 
 
-# 合并所有 DataFrame
+# Merge all DataFrames
 if dfs:
     final_df = pd.concat(dfs, ignore_index=True)
 
-    # 使用逻辑填充'Smile Ratio'列
+    # Use logic to populate the 'Smile Ratio' column
     final_df['Smile Ratio'] = final_df.apply(lambda x: x['Smile Ratio'] if x['Detected'] else 0.1 if x['Smile Ratio'] is not None else 0, axis=1)
 
-    # 检查最终的 DataFrame 列
+    # Check the final DataFrame columns
     print(final_df.columns)
 
-    # 保存结果到 CSV 文件
     final_df.to_csv("output.csv", index=False)
 else:
     print("No MP4 videos found in the specified folders.")
