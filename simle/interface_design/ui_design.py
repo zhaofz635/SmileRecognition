@@ -56,30 +56,6 @@ def create_main_layout(app_instance):
     main_box.add_widget(button_layout)
 
     explanation_layout = BoxLayout(size_hint=(1, 0.1))
-
-    # recognize_explanation_text = ('Deep fusion neural network extracts features')
-    # analyze_explanation_text = ('Type of behavior, basis for judgment, time period')
-
-    # recognize_explanation_label = Label(
-    #     text=recognize_explanation_text,
-    #     size_hint=(1, None),
-    #     height=50,
-    #     halign='center',
-    #     valign='top',
-    #     color=(1, 1, 1, 1),
-    #     font_size='16sp')
-
-    # analyze_explanation_label = Label(
-    #     text=analyze_explanation_text,
-    #     size_hint=(1, None),
-    #     height=50,
-    #     halign='center',
-    #     valign='top',
-    #     color=(1, 1, 1, 1),
-    #     font_size='16sp')
-
-    # explanation_layout.add_widget(recognize_explanation_label)
-    # explanation_layout.add_widget(analyze_explanation_label)
     main_box.add_widget(explanation_layout)
 
     copyright_text = ('Copyright@zhaofz')
