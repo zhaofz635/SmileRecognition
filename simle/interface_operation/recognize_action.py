@@ -2,7 +2,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 import os
-# 使用相对路径导入 recognize_video 模块
+
+# Use relative path to import recognize_video module
 from ..interface_operation import recognize_video_old
 
 def open_filechooser(app_instance, instance):
