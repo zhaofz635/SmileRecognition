@@ -35,12 +35,10 @@ The software divides smiles into two dimensions: laughter and smiling faces, and
     FileDownload.py: Implementation of file downloading.
     send_email.py: Implementation of sending emails.
   - **5. laughter_recognition Module
-    video_processing.py: Video data processing and feature extraction.
-    audio_processing.py: Audio data processing and feature extraction.
-    Deepfusion_network_model.py: Model establishment, training, and evaluation.
-    Smile Recognition
-    Utilizes pre-existing deep learning discriminators in OpenCV to identify facial grayscale values.
-    Features include facial features and Smile Ratio (angle of mouth corner uplift).
+    **video_processing.py: Video data processing and feature extraction.
+    **audio_processing.py: Audio data processing and feature extraction.
+    **Deepfusion_network_model.py: Model establishment, training, and evaluation.
+    **Smile Recognition：Utilizes pre-existing deep learning discriminators in OpenCV to identify facial grayscale values.Features include facial features and Smile Ratio (angle of mouth corner uplift).
 
 - **Laughter Recognition
   - **Main features include Main Frequencies, Energy Distribution, and Time Domain Features, extracted using the librosa library.
