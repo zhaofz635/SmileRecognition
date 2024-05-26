@@ -6,7 +6,7 @@ from moviepy.editor import VideoFileClip
 from tensorflow.keras.models import load_model
 import os
 
-# 提取视频和音频特征
+#Extract video and audio features
 def extract_video_audio_features(video_file, segment_length=1):
     frames = []
     face_positions = []
@@ -19,11 +19,11 @@ def extract_video_audio_features(video_file, segment_length=1):
     fps = video_clip.fps
     num_frames_per_segment = int(fps * segment_length)
 
-    # 提取音频
+   # Extract audio
     audio_path = "temp_audio.wav"
     video_clip.audio.write_audiofile(audio_path)
 
-    # 处理视频帧
+   # Process video frames
     for i, frame in enumerate(video_clip.iter_frames()):
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
@@ -44,7 +44,7 @@ def extract_video_audio_features(video_file, segment_length=1):
 
         frames.append(gray_frame)
 
-        # 每段处理完毕，保存到segments
+        # After each segment is processed, save it to segments
         if (i + 1) % num_frames_per_segment == 0:
             audio_segment = extract_audio_segment(audio_path, i // fps, segment_length)
             audio_segments.append(audio_segment)
@@ -53,7 +53,7 @@ def extract_video_audio_features(video_file, segment_length=1):
 
     video_clip.close()
 
-    # 删除临时音频文件
+    # Delete temporary audio files
     if os.path.exists(audio_path):
         os.remove(audio_path)
 
@@ -117,7 +117,7 @@ def preprocess_face_data(face_positions, smile_ratios, target_length=2039):
     print("Preprocessed face data shape:", combined_features.shape)
     return combined_features
 
-# 加载模型
+#Load model
 model_path = '/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/laughter_recognition/laughter_detection_model.h5'  # 更新为你的模型路径
 model = load_model(model_path, compile=False)
 
@@ -134,9 +134,9 @@ def generate_feedback(face_pred, laugh_pred):
 def save_to_csv(output_file, data):
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        # 写入CSV文件的表头
+        #Write the header of the CSV file
         writer.writerow(['FileName', 'LaughingBehavior', 'BehaviorType', 'StartingTime', 'EndingTime'])
-        # 写入笑行为数据
+        #Write laughter behavior data
         if data:
             for row in data:
                 writer.writerow(row)
@@ -144,9 +144,9 @@ def save_to_csv(output_file, data):
             writer.writerow(['None', 'None Behavior detected', 'None', 'None', 'None'])
 
 def recognize_laughter(video_audio_file):
-    segment_length = 1  # 每个片段的持续时间（秒）
+    segment_length = 1  #Duration of each segment (seconds)
     laughter_intervals = []
-    laughter_data = []  # 用于存储笑行为数据
+    laughter_data = []  # Used to store laughter behavior data
 
     for i, (frames, face_positions, smile_ratios, audio_features) in enumerate(extract_video_audio_features(video_audio_file, segment_length)):
         preprocessed_audio_features = preprocess_audio_data(audio_features, 2039)
@@ -155,7 +155,7 @@ def recognize_laughter(video_audio_file):
         predictions = model.predict([preprocessed_audio_features, preprocessed_face_features])
         print("Predictions:", predictions)
 
-        # 检查预测输出的形状
+        # Check the shape of the predicted output
         if len(predictions.shape) == 2:
             laughter_probabilities = predictions[0]
         else:
@@ -163,14 +163,14 @@ def recognize_laughter(video_audio_file):
 
         print("Laughter probabilities:", laughter_probabilities)
 
-        # 根据阈值判断笑声和笑脸的检测结果
+        # Judge the detection results of laughter and smiles based on the threshold
         face_pred = laughter_probabilities[0] > 0.5
         laugh_pred = laughter_probabilities[1] > 0.5
 
         feedback = generate_feedback(face_pred, laugh_pred)
         print("Feedback:", feedback)
 
-        # 保存检测到的笑脸和笑声的时间段
+       # Save the time period of detected smiles and laughter
         if laugh_pred or face_pred:
             laughter_intervals.append((i * segment_length, (i + 1) * segment_length))
             laughter_data.append([
@@ -185,7 +185,7 @@ def recognize_laughter(video_audio_file):
 
     return laughter_intervals
 
-# 调用recognize_laughter函数进行测试
-video_audio_file_path = '/Users/fuzhengzhao/Desktop/test.mp4'  # 更新为实际的视频文件路径
-laughter_intervals = recognize_laughter(video_audio_file_path)
-print("Laughter intervals:", laughter_intervals)
+# Call recognize_laughter function for testing
+#video_audio_file_path = '/Users/fuzhengzhao/Desktop/test.mp4'  # Update to the actual video file path
+#laughter_intervals = recognize_laughter(video_audio_file_path)
+#print("Laughter intervals:", laughter_intervals)
