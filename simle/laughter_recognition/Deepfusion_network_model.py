@@ -8,16 +8,16 @@ from keras.utils import to_categorical
 from keras.optimizers import Adam
 from sklearn.metrics import classification_report, confusion_matrix
 
-# 定义路径
+# define path
 train_data_folder = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/data/train"
 test_data_folder = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/data/test"
 face_data_path = "/Users/fuzhengzhao/PycharmProjects/pythonProject/simle/laughter_recognition/output.csv"
 
-# 数据音频准备和预处理
+# Data audio preparation and preprocessing
 train_df = audio_processing.process_data(train_data_folder)
 test_df = audio_processing.process_data(test_data_folder)
 
-# 提取音频特征
+#Extract audio features
 max_feature_length = max(len(features['Main Frequencies']) + len(features['Energy Distribution']) + len(features['Time Domain Features']) for features in train_df['Features'])
 
 def extract_features(df, max_len):
@@ -36,17 +36,17 @@ X_test_audio = extract_features(test_df, max_feature_length)
 y_train_audio = to_categorical(train_df['Laughter Detected'], num_classes=2)
 y_test_audio = to_categorical(test_df['Laughter Detected'], num_classes=2)
 
-# 读取笑脸的数据特征和标签
+# Read the data characteristics and labels of the smiley face
 face_df = pd.read_csv(face_data_path, index_col=False)
 
-# 检查 'Face Position' 和 'Smile Ratio' 列是否存在
+# Check if the 'Face Position' and 'Smile Ratio' columns exist
 if 'Face Position' not in face_df.columns or 'Smile Ratio' not in face_df.columns:
     raise KeyError("'Face Position' or 'Smile Ratio' column is missing from the DataFrame")
 
-# 过滤掉无效值
+# Filter out invalid values
 face_df = face_df.dropna(subset=['Face Position', 'Smile Ratio'])
 
-# 转换 'Face Position' 列为数值型数据
+# Convert the 'Face Position' column to numeric data
 def convert_face_position(x):
     try:
         return tuple(map(int, x.strip('()').split(',')))
@@ -54,12 +54,13 @@ def convert_face_position(x):
         return None
 
 face_df['Face Position'] = face_df['Face Position'].apply(convert_face_position)
-face_df = face_df.dropna(subset=['Face Position'])  # 删除转换失败的行
+# Delete rows that failed to convert
+face_df = face_df.dropna(subset=['Face Position'])  
 
-# 删除 'Video Number' 列
+# Delete the 'Video Number' column
 face_df = face_df.drop(columns=['Video Number'])
 
-# 根据音频数据集的数量拆分脸部数据集
+# Split the face dataset based on the number of audio datasets
 num_train_samples = len(train_df)
 num_test_samples = len(test_df)
 
@@ -72,7 +73,7 @@ print("Shape of X_test_audio:", X_test_audio.shape)
 print("Number of training samples for face data:", len(face_train_df))
 print("Number of testing samples for face data:", len(face_test_df))
 
-# 获取笑脸的特征数据
+# Get the characteristic data of the smiley face
 face_features_train = face_train_df.apply(lambda row: list(row['Face Position']) + [row['Smile Ratio']], axis=1).tolist()
 face_features_test = face_test_df.apply(lambda row: list(row['Face Position']) + [row['Smile Ratio']], axis=1).tolist()
 
@@ -80,7 +81,7 @@ face_features_test = face_test_df.apply(lambda row: list(row['Face Position']) +
 print("Number of face features for training:", len(face_features_train))
 print("Number of face features for testing:", len(face_features_test))
 
-# 获取笑脸的标签数据
+# Get the label data of the smiley face
 y_train_face = to_categorical(face_train_df['Detected'], num_classes=2)
 y_test_face = to_categorical(face_test_df['Detected'], num_classes=2)
 
@@ -88,18 +89,18 @@ y_test_face = to_categorical(face_test_df['Detected'], num_classes=2)
 print("Shape of y_train_face:", y_train_face.shape)
 print("Shape of y_test_face:", y_test_face.shape)
 
-# 合并笑脸的数据特征到音频的数据特征中
+# Merge the data features of the smiley face into the data features of the audio
 X_train_face = np.array(face_features_train, dtype=np.float32)
 X_test_face = np.array(face_features_test, dtype=np.float32)
 
-# 确定面部特征的最大长度
+# Determine the maximum length of facial features
 max_face_feature_length = max([len(features) for features in face_features_train])
 
-# 修正笑脸特征的长度以匹配音频特征长度
+# Correct the length of the smile feature to match the length of the audio feature
 X_train_face = np.pad(X_train_face, ((0, 0), (0, max_feature_length - max_face_feature_length)), 'constant')
 X_test_face = np.pad(X_test_face, ((0, 0), (0, max_feature_length - max_face_feature_length)), 'constant')
 
-# 将特征重塑为适合 CNN 输入的形状
+# Reshape features into a shape suitable for the CNN input
 X_train_audio = np.expand_dims(X_train_audio, axis=2)
 X_test_audio = np.expand_dims(X_test_audio, axis=2)
 X_train_face = np.expand_dims(X_train_face, axis=2)
@@ -111,14 +112,14 @@ print("Final shape of X_test_audio:", X_test_audio.shape)
 print("Final shape of X_train_face:", X_train_face.shape)
 print("Final shape of X_test_face:", X_test_face.shape)
 
-# 确认训练和测试集数据的形状
+# Confirm the shape of the training and test set data
 if X_train_audio.shape[0] != X_train_face.shape[0]:
     raise ValueError("Mismatch between number of audio and face data samples in training set")
 
 if X_test_audio.shape[0] != X_test_face.shape[0]:
     raise ValueError("Mismatch between number of audio and face data samples in test set")
 
-# 构建音频和笑脸的CNN模型并融合
+# Build CNN models for audio and smiley faces and fuse them
 def create_multimodal_model(input_shape_audio, input_shape_face):
     # Audio feature extraction
     audio_input = Input(shape=input_shape_audio)
@@ -159,7 +160,7 @@ input_shape_face = (X_train_face.shape[1], X_train_face.shape[2])
 
 model = create_multimodal_model(input_shape_audio, input_shape_face)
 
-# 为每个输出指定评估指标
+# Specify evaluation metrics for each output
 model.compile(optimizer=Adam(),
               loss='categorical_crossentropy',
               metrics={
@@ -167,24 +168,24 @@ model.compile(optimizer=Adam(),
                   'smile_output': ['accuracy']
               })
 
-# 训练模型
+#Train model
 model.fit([X_train_audio, X_train_face], [y_train_audio, y_train_face], epochs=50, batch_size=32)
 
-# 在测试集上评估模型
+# Evaluate the model on the test set
 score = model.evaluate([X_test_audio, X_test_face], [y_test_audio, y_test_face])
 print("Evaluation Scores:", score)
 print("Number of Evaluation Scores:", len(score))
 
-# 打印模型输出的准确性和其他指标
-if len(score) == 4:  # 确保 score 列表中有4个元素
+#Print the accuracy and other metrics of model output
+if len(score) == 4:  # Make sure there are 4 elements in the score list
     print("Test Loss:", score[0])
     print("Test Accuracy for Laughter Detection:", score[1])
     print("Test Accuracy for Smile Detection:", score[3])
 else:
     print("The score list does not contain the expected number of elements. Please check the metric configuration.")
 
-# 保存模型
+
 save_model(model, 'laughter_smile_detection_model.keras')
 
-# 打印模型架构
+#Print model architecture
 model.summary()
