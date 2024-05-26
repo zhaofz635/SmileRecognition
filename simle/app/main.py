@@ -18,7 +18,7 @@ class VideoAnalyzerApp(App):
         self.analysis_data = None
 
     def build(self):
-        Window.size = (800, 600)  # 设置更大的宽度和高度
+        Window.size = (800, 600) 
         Window.title = 'Simle Identify'
         layout = create_main_layout(self)
         self.recognize_button = layout.ids['recognize_button']
@@ -34,7 +34,7 @@ class VideoAnalyzerApp(App):
 
     def analyze_and_display_results(self, instance):
         self.analysis_result = analyze_and_display_results(self, instance)
-        self.analysis_data = self.analysis_result  # 保存分析数据
+        self.analysis_data = self.analysis_result  
 
     def show_about_page(self, instance):
         show_about_page(self, instance)
