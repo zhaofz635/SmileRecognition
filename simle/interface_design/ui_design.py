@@ -74,8 +74,8 @@ def create_main_layout(app_instance):
         'recognize_button': recognize_button,
         'analyze_button': analyze_button,
         'introduction_button': introduction_button,
-        'file_download_button': file_download_button,  # 添加FileDownload按钮到ids字典中
-        'contact_us_button': contact_us_button  # 添加contact_us_button按钮到ids字典中
+        'file_download_button': file_download_button,  
+        'contact_us_button': contact_us_button  
     }
 
     return layout
