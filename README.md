@@ -48,8 +48,6 @@ The software divides smiles into two dimensions: laughter and smiling faces, and
       - Model architecture: Utilizes Conv1D and LSTM layers to extract audio and facial features, followed by GlobalMaxPooling1D for global features.           Features are concatenated and passed through fully connected layers for classification.
       - Training and evaluation: Compiles the model using the Adam optimizer, adds Recall and Precision evaluation metrics. Trains the model on the training set and evaluates it on the test set, outputting classification reports and confusion matrices.
 
-## Installation
-To install SmileRecognition, clone this repository and install the required dependencies:
 
 ## Installation
 
@@ -83,24 +81,24 @@ The required libraries are listed in the `requirements.txt` file. These librarie
 2. **Create a Virtual Environment (Optional but Recommended)**
    it's a good practice to create a virtual environment to manage dependencies:
 
-sh
-Copy code
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+  ```sh
+  Copy code
+  python -m venv venv
+  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    
 3. **Install Dependencies**
    Install the required libraries using pip:
 
-sh
-Copy code
-pip install -r requirements.txt
+  ```sh
+  Copy code
+  pip install -r requirements.txt
 
 4. **Downloading Data**
   If your software requires specific datasets, provide instructions on how to download them. For example:
   Download the Sample Video Data
   You can download the sample video data from this link. After downloading, unzip the files into a directory named data.
 
-sh
-Copy code
-mkdir data
-unzip sample-videos.zip -d data
+  ```sh
+  Copy code
+  mkdir data
+  unzip sample-videos.zip -d data
