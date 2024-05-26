@@ -90,16 +90,15 @@ The required libraries are listed in the `requirements.txt` file. These librarie
    
    Install the required libraries using pip:
    ```sh
-  Copy code
-  pip install -r requirements.txt
+   Copy code
+   pip install -r requirements.txt
 
 4. **Downloading Data**
 
-  If your software requires specific datasets, provide instructions on how to download them. For example:
-  Download the Sample Video Data
-  You can download the sample video data from this link. After downloading, unzip the files into a directory named data.
-
-  ```sh
-  Copy code
-  mkdir data
-  unzip sample-videos.zip -d data
+   If your software requires specific datasets, provide instructions on how to download them. For example:
+   Download the Sample Video Data
+   You can download the sample video data from this link. After downloading, unzip the files into a directory named data.
+   ```sh
+   Copy code
+   mkdir data
+   unzip sample-videos.zip -d data
