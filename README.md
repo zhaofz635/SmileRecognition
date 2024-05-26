@@ -51,11 +51,6 @@ The software divides smiles into two dimensions: laughter and smiling faces, and
 ## Installation
 To install SmileRecognition, clone this repository and install the required dependencies:
 
-```sh
-git clone https://github.com/yourusername/SmileRecognition.git
-cd SmileRecognition
-pip install -r requirements.txt
-
 ## Installation
 
 To get started with SmileRecognition, follow these steps to install the necessary dependencies and set up the project.
@@ -84,4 +79,28 @@ The required libraries are listed in the `requirements.txt` file. These librarie
    ```sh
    git clone https://github.com/yourusername/SmileRecognition.git
    cd SmileRecognition
+   
+2. **Create a Virtual Environment (Optional but Recommended)**
+   it's a good practice to create a virtual environment to manage dependencies:
 
+sh
+Copy code
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   
+3. **Install Dependencies**
+   Install the required libraries using pip:
+
+sh
+Copy code
+pip install -r requirements.txt
+
+4. **Downloading Data**
+  If your software requires specific datasets, provide instructions on how to download them. For example:
+  Download the Sample Video Data
+  You can download the sample video data from this link. After downloading, unzip the files into a directory named data.
+
+sh
+Copy code
+mkdir data
+unzip sample-videos.zip -d data
