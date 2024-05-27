@@ -6,8 +6,8 @@ SmileRecognition is a Python-based software designed to extract smile features (
 - [Functions](#functions)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Detecting Smiles in Videos](#detecting-smiles-in-videos)
-  - [Analyzing Laughter in Audio](#analyzing-laughter-in-audio)
+  - [Software idenification process](#Software identification process)
+  - [Software optimization tips](#Software optimization tips)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -102,3 +102,21 @@ The required libraries are listed in the `requirements.txt` file. These librarie
    Copy code
    mkdir data
    unzip sample-videos.zip -d data
+
+## Usage
+
+  Here is a guide on how to use the software:
+
+1. **Software idenification process**
+  - Navigate to `smile/app/main.py` and launch the software interface.
+  - In the center of the interface, there are two core operation buttons: `Identify` and `Analysis`.
+  - Recognition Process:
+     - Click on `Identify` and select the audio or video file you want to recognize, formats such as `mp4` or `avi`.
+     - Wait for the recognition process to complete. After completion, the `Identify` window will automatically close.
+     - Click on the `Analysis` button to view the analysis results in `csv` format.
+  - Downloading Analysis Results:
+     - In the software's menu bar (including `Introduction`, `Contact Us`, `File Download`), click on `File Download` and choose the save path and input file name.
+
+1. **Software optimization tips**
+     - You can optimize the training data for the model and adjust the logic and code for feature extraction to further update and optimize the recognition software.
+     
