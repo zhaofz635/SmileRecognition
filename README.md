@@ -117,6 +117,6 @@ The required libraries are listed in the `requirements.txt` file. These librarie
   - Downloading Analysis Results:
      - In the software's menu bar (including `Introduction`, `Contact Us`, `File Download`), click on `File Download` and choose the save path and input file name.
 
-1. **Software optimization tips**
+2. **Software optimization tips**
      - You can optimize the training data for the model and adjust the logic and code for feature extraction to further update and optimize the recognition software.
      
