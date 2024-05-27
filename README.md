@@ -119,4 +119,16 @@ The required libraries are listed in the `requirements.txt` file. These librarie
 
 2. **Software optimization tips**
      - You can optimize the training data for the model and adjust the logic and code for feature extraction to further update and optimize the recognition software.
-     
+
+## Contributing
+
+  We welcome contributions to improve SmileRecognition. Please fork the repository and submit pull requests for any enhancements or bug fixes.
+
+## License
+
+  This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+  OpenCV - Computer Vision Library
+  dlib - Machine Learning Library
