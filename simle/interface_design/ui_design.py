@@ -35,7 +35,6 @@ def create_main_layout(app_instance):
     contact_us_button.bind(on_release=app_instance.show_contact_us)
     menu_bar.add_widget(contact_us_button)
 
-    # 创建 FileDownload 按钮
     file_download_button = Button(text='File Download',  background_color=(0.23, 0.35, 0.60, 1), font_size='23sp')
     file_download_button.bind(on_press=app_instance.show_file_download)
     menu_bar.add_widget(file_download_button)
