@@ -1,6 +1,6 @@
 # Design and Development of Laughter Recognition Software Based on Multimodal Fusion and Deep Learning
 
-Fuzheng ZHAO1, Yu BAI2 2,3, Chengjiu YIN2
+Fuzheng ZHAO1, Yu BAI2,3, Chengjiu YIN2
 1 Jilin University, China 2 Kyushu University， Japan, 3 Northeast Normal University, China
 
 Abstract
