@@ -147,3 +147,12 @@ In addition to improving recognition accuracy, future work will expand the appli
 We extend our gratitude to all who supported this research. This work was supported by Jilin University, China, Kyushu University, Japan, and Northeast Normal University, China. We thank the members of the research team for their contributions and collaboration.
 
 # References
+- Foer, J. (2001). Laughter: A scientific investigation. *The Yale Journal of Biology and Medicine*, 74(2), 141.
+- Martin, R. A., & Ford, T. (2018). The psychology of humor: An integrative approach. Academic press.
+- Kuiper, N. A., & Martin, R. A. (1998). Laughter and stress in daily life: Relation to positive and negative affect. *Motivation and emotion*, 22, 133-153.
+- Schradle, S. B., & Dougher, M. J. (1985). Social support as a mediator of stress: Theoretical and empirical issues. *Clinical Psychology Review*, 5(6), 641-661.
+- Martin, R. A., Puhlik-Doris, P., Larsen, G., Gray, J., & Weir, K. (2003). Individual differences in uses of humor and their relation to psychological well-being: Development of the Humor Styles Questionnaire. *Journal of research in personality*, 37(1), 48-75.
+- Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. *American psychologist*, 55(1), 68.
+- Eyben, F., Wöllmer, M., & Schuller, B. (2010, October). Opensmile: the munich versatile and fast open-source audio feature extractor. In *Proceedings of the 18th ACM international conference on Multimedia* (pp. 1459-1462).
+- Turker, B. B., Yemez, Y., Sezgin, T. M., & Erzin, E. (2017). Audio-facial laughter detection in naturalistic dyadic conversations. *IEEE Transactions on Affective Computing*, 8(4), 534-545.
+- Truong, K. P., & Van Leeuwen, D. A. (2007). Automatic discrimination between laughter and speech. *Speech Communication*, 49(2), 144-158.
